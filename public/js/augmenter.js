@@ -7,10 +7,13 @@ let augmenter = {
     this.ctx1 = this.c1.getContext("2d");
     this.c2 = document.getElementById('c2');
     this.ctx2 = this.c2.getContext('2d');
+    this.status = "default";
     let self = this;
     this.video.addEventListener('play', function() {
-        self.width = self.video.videoWidth/2;
-        self.height = self.video.videoHeight/2;
+      console.log(self.video.videoWidth);
+      console.log(self.video.videoHeight);
+      self.width = self.video.videoWidth;
+      self.height = self.video.videoHeight;
         self.timerCallback();
       }, false);
   },
@@ -19,7 +22,15 @@ let augmenter = {
     if (this.video.paused || this.video.ended) {
       return;
     }
-    this.computeFrame();
+
+    if (this.status === "default") {
+      this.computeFrame();
+    } else if (this.status === "triangle") {
+      this.computeTriangle();
+    } else if(this.status === "grayscale") {
+      this.computeGrayScale();
+    }
+    
     let self = this;
     setTimeout(function() {
         self.timerCallback();
@@ -27,11 +38,32 @@ let augmenter = {
                  //to be done based on knowledge of the video's frame rate.
   },
 
-    computeFrame: function() {
+  computeFrame: function() {
+    this.ctx1.drawImage(this.video, 0, 0, this.width, this.height); // draw image onto canvas
+    let frame = this.ctx1.getImageData(0, 0, this.width, this.height); // get data from canvas
+    this.ctx2.putImageData(frame, 0, 0);
+    return;
+  }, 
+
+  computeTriangle: function() {
+    this.ctx1.drawImage(this.video, 0, 0, this.width, this.height); // draw image onto canvas
+    // draw a triangle
+    this.ctx1.beginPath();
+    this.ctx1.moveTo(125, 125);
+    this.ctx1.lineTo(125, 45);
+    this.ctx1.lineTo(45, 125);
+    this.ctx1.closePath();
+    this.ctx1.stroke(); 
+    let frame = this.ctx1.getImageData(0, 0, this.width, this.height); // get data from canvas
+    this.ctx2.putImageData(frame, 0, 0);
+    return;
+  },
+
+
+  computeGrayScale: function() {
     this.ctx1.drawImage(this.video, 0, 0, this.width, this.height); // draw image onto canvas
     let frame = this.ctx1.getImageData(0, 0, this.width, this.height); // get data from canvas
     let l = frame.data.length / 4;
-
     for (let i = 0; i < l; i++) { // converts to grayscale image
       let r = frame.data[i * 4 + 0];
       let g = frame.data[i * 4 + 1];
@@ -43,12 +75,24 @@ let augmenter = {
     }
     this.ctx2.putImageData(frame, 0, 0);
     return;
-  }
+  }, 
 
 };
 
 
 document.addEventListener("DOMContentLoaded", () => {
 augmenter.doLoad();
+
+});
+
+
+button2.addEventListener('click', event => {
+  if (select2.value === "triangle") {
+    augmenter.status = "triangle";
+  } else if (select2.value === "grayscale") {
+    augmenter.status = "grayscale";
+  } else if (select2.value === "default") {
+    augmenter.status = "default";
+  }
 
 });
