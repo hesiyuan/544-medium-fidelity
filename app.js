@@ -41,11 +41,19 @@ var app = express();
  */
 var asUrl = url.parse(argv.as_uri);
 var port = asUrl.port;
-app.listen(process.env.PORT, process.env.IP);
-
+//app.listen(process.env.PORT, process.env.IP);
+app.listen(3000, "localhost");
 
 // routes
+app.get('/camera',function(req,res){
+	console.log("camera page sent");
+  res.sendFile(path.join(__dirname + '/public/camera.html'));
+});
+
+
+
 app.get('/',function(req,res){
+	console.log("tutorial page sent");
   res.sendFile(path.join(__dirname + '/public/tutorial.html'));
 });
 
