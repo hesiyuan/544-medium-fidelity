@@ -55,3 +55,5 @@ button.addEventListener('click', event => {
 });
 
 navigator.mediaDevices.enumerateDevices().then(gotDevices);
+
+

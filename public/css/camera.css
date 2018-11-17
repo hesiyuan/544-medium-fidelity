@@ -1,6 +1,13 @@
 video {
   width: 100%;
   max-width: 600px;
+/*  display: block;*/ 
+  margin: 0 auto;
+}
+
+c2 {
+  width: 100%;
+  max-width: 600px;
   display: block;
   margin: 0 auto;
 }
