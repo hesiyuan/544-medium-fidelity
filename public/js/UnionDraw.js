@@ -159,8 +159,6 @@ function initOrbiter () {
  
   // Connect to Union Server (at the public testing site)
   orbiter.connect("tryunion.com", 80); //changed from 80 to 443; connect to secureConnect
-  //orbiter.connect("18.222.233.46", 9100); // this works
-  //orbiter.secureConnect("18.222.233.46", 8443);
 }
  
 //==============================================================================
