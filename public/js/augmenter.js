@@ -60,6 +60,14 @@ let augmenter = {
     this.ctx1.closePath();
     this.ctx1.stroke(); 
 
+    if(context == null) { // context is null in mobile...
+      this.ctx1.beginPath();
+    this.ctx1.moveTo(225, 125);
+    this.ctx1.lineTo(125, 45);
+    this.ctx1.lineTo(45, 225);
+    this.ctx1.closePath();
+    this.ctx1.stroke(); 
+    }
     let external = context.getImageData(0, 0, this.width, this.height);
     //this.ctx1.putImageData(external, 0, 0);
 

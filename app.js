@@ -43,7 +43,7 @@ var asUrl = url.parse(argv.as_uri);
 var port = asUrl.port;
 //app.listen(process.env.PORT, process.env.IP);
 app.listen(3000, "localhost");
-
+//app.listen(3000, "127.0.0.1");
 // routes
 app.get('/camera',function(req,res){
 	console.log("camera page sent");
